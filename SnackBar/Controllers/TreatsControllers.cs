@@ -1,8 +1,13 @@
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using SnackBar.Models;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace SnackBar.Controllers
 {
@@ -37,8 +42,8 @@ namespace SnackBar.Controllers
     public ActionResult Details(int id)
     {
       var thisTreat = _db.Treats
-          .Include(treat => treat.TreatBooks)
-          .ThenInclude(treatBook => treatBook.Book)
+          .Include(treat => treat.JoinEntities)
+          .ThenInclude(treatFlavor => treatFlavor.Flavor)
           .FirstOrDefault(treat => treat.TreatId == id);
       return View(thisTreat);
     }

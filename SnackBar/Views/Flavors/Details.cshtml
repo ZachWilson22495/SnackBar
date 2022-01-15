@@ -2,11 +2,11 @@
 
 <h2>Flavor Details</h2>
 <hr />
-<h3>@Html.DisplayNameFor(model => model.Title): @Html.DisplayFor(model => model.Title)</h3>
+<h3>@Html.DisplayNameFor(model => model.FlavorName): @Html.DisplayFor(model => model.FlavorName)</h3>
 
 <h4>Can be found on these treats:</h4>
   <ul>
-  @foreach(var join in Model.Treats)
+  @foreach(var join in Model.JoinEntities)
   {
     <li>@join.Treat.TreatName</li>
     @using (Html.BeginForm("DeleteTreat", "Flavors"))

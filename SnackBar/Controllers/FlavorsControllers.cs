@@ -34,7 +34,7 @@ namespace SnackBar.Controllers
     }
 
     [HttpPost]
-    public async Task<ActionResult> Create(Flavor flavor, int TreatId, int Copies)
+    public async Task<ActionResult> Create(Flavor flavor, int TreatId)
     {
         var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         var currentUser = await _userManager.FindByIdAsync(userId);
@@ -46,9 +46,8 @@ namespace SnackBar.Controllers
     public ActionResult Details(int id)
     {
       var thisFlavor = _db.Flavors
-        .Include(flavor => flavor.Treats)
+        .Include(flavor => flavor.JoinEntities)
         .ThenInclude(join => join.Treat)
-        .Include(flavor => flavor.Copies)
         .FirstOrDefault(flavor => flavor.FlavorId == id);
       return View(thisFlavor);
     }
