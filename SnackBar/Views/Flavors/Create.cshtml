@@ -1,0 +1,15 @@
+@model SnackBar.Models.Flavor;
+
+<h4>Please fill in Flavor Details below</h4>
+
+@using (Html.BeginForm())
+{
+  @Html.LabelFor(model => model.FlavorName)
+  @Html.TextBoxFor(model => model.FlavorName)
+
+  @Html.LabelFor(model => model.FlavorDetails)
+  @Html.EditorFor(model => model.FlavorDetails)
+
+  <input type="submit" value="Add new flavor" class="btn btn-default" />
+}
+<p>@Html.ActionLink("Show all flavors", "Index")</p>
