@@ -36,7 +36,7 @@ _A webpage built under request of Pierre the Baker. France's #1 imaginary baker.
 
 * Run 'dotnet restore' in your terminal to install bin & obj folders.
 
-* Use your terminal to navigate back to 'Factory.Solution/Factory' and run 'dotnet run' to activate application.
+* Use your terminal to navigate back to 'SnackBar.Solution/SnackBar' and run 'dotnet run' to activate application.
 * Create an account at the main menu in order to access the site's full functionality. Register first, and then log in as your new account.
 * Use the user interface provided by the webpage to manage your treats and flavors.
 
