@@ -11,23 +11,30 @@ using System.Security.Claims;
 
 namespace SnackBar.Controllers
 {
+  [Authorize]
   public class TreatsController : Controller
   {
     private readonly SnackBarContext _db;
-
-    public TreatsController(SnackBarContext db)
+    private readonly UserManager<ApplicationUser> _userManager;
+    
+    public TreatsController(UserManager<ApplicationUser> userManager, SnackBarContext db)
     {
+      _userManager = userManager;
       _db = db;
     }
 
+    [AllowAnonymous]
     public ActionResult Index()
     {
-      List<Treat> model = _db.Treats.ToList();
-      return View(model);
+      return View(_db.Treats.ToList());
     }
 
-    public ActionResult Create()
+    [Authorize]
+    public async Task<ActionResult> Create()
     {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      var userTreats = _db.Treats.Where(entry => entry.User.Id == currentUser.Id).ToList();
       return View();
     }
 
@@ -38,7 +45,7 @@ namespace SnackBar.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
-
+    [AllowAnonymous]
     public ActionResult Details(int id)
     {
       var thisTreat = _db.Treats
@@ -47,9 +54,12 @@ namespace SnackBar.Controllers
           .FirstOrDefault(treat => treat.TreatId == id);
       return View(thisTreat);
     }
-
-    public ActionResult Edit(int id)
+    [Authorize]
+    public async Task<ActionResult> Edit(int id)
     {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      var userTreats = _db.Treats.Where(entry => entry.User.Id == currentUser.Id).ToList();
       var thisTreat = _db.Treats.FirstOrDefault(treat => treat.TreatId == id);
       return View(thisTreat);
     }
@@ -61,9 +71,13 @@ namespace SnackBar.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
-
-    public ActionResult Delete(int id)
+    
+    [Authorize]
+    public async Task<ActionResult> Delete(int id)
     {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      var userTreats = _db.Treats.Where(entry => entry.User.Id == currentUser.Id).ToList();
       var thisTreat = _db.Treats.FirstOrDefault(treat => treat.TreatId == id);
       return View(thisTreat);
     }

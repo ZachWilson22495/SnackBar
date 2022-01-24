@@ -6,6 +6,9 @@
 {
   @Html.LabelFor(model => model.TreatName)
   @Html.TextBoxFor(model => model.TreatName)
+
+  @Html.LabelFor(model => model.TreatDetails)
+  @Html.TextBoxFor(model => model.TreatDetails)
   <input type="submit" value="Add new treat" />
 }
 <p>@Html.ActionLink("Show all treats", "Index")</p>

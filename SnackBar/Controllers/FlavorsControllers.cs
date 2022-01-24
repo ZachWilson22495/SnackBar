@@ -11,6 +11,7 @@ using System.Security.Claims;
 
 namespace SnackBar.Controllers
 {
+  [Authorize]
   public class FlavorsController : Controller
   {
     private readonly SnackBarContext _db;
@@ -22,27 +23,30 @@ namespace SnackBar.Controllers
       _db = db;
     }
 
+    [AllowAnonymous]
     public ActionResult Index()
     {
       return View(_db.Flavors.ToList());
     }
 
-    public ActionResult Create()
+    public async Task<ActionResult> Create()
     {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      var userFlavors = _db.Flavors.Where(entry => entry.User.Id == currentUser.Id).ToList();
       ViewBag.TreatId = new SelectList(_db.Treats, "TreatId", "Name");
       return View();
     }
 
     [HttpPost]
-    public async Task<ActionResult> Create(Flavor flavor, int TreatId)
+    public ActionResult Create(Flavor flavor, int TreatId)
     {
-        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        var currentUser = await _userManager.FindByIdAsync(userId);
         _db.Flavors.Add(flavor);
         _db.SaveChanges();
         return RedirectToAction("Index");
     }
 
+    [AllowAnonymous]
     public ActionResult Details(int id)
     {
       var thisFlavor = _db.Flavors
@@ -52,8 +56,11 @@ namespace SnackBar.Controllers
       return View(thisFlavor);
     }
 
-    public ActionResult Edit(int id)
+    public async Task<ActionResult> Edit(int id)
     {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      var userFlavors = _db.Flavors.Where(entry => entry.User.Id == currentUser.Id).ToList();
       var thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
       return View(thisFlavor);
     }
@@ -66,8 +73,12 @@ namespace SnackBar.Controllers
       return RedirectToAction("Index");
     }
 
-    public ActionResult Delete(int id)
+
+    public async Task<ActionResult> Delete(int id)
     {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      var userFlavors = _db.Flavors.Where(entry => entry.User.Id == currentUser.Id).ToList();
       var thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
       return View(thisFlavor);
     }

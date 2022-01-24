@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SnackBar.Models;
 
 namespace SnackBar.Migrations
 {
     [DbContext(typeof(SnackBarContext))]
-    partial class SnackBarContextModelSnapshot : ModelSnapshot
+    [Migration("20220124062055_Account")]
+    partial class Account
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -243,12 +245,7 @@ namespace SnackBar.Migrations
                     b.Property<string>("TreatName")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
                     b.HasKey("TreatId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Treats");
                 });
@@ -326,15 +323,6 @@ namespace SnackBar.Migrations
                 });
 
             modelBuilder.Entity("SnackBar.Models.Flavor", b =>
-                {
-                    b.HasOne("SnackBar.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("SnackBar.Models.Treat", b =>
                 {
                     b.HasOne("SnackBar.Models.ApplicationUser", "User")
                         .WithMany()

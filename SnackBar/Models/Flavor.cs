@@ -14,6 +14,8 @@ namespace SnackBar.Models
     public string FlavorName { get; set; }
     public string FlavorDetails { get; set; }
 
+    public virtual ApplicationUser User { get; set; }
+
     public virtual ICollection<TreatFlavor> JoinEntities { get; }
   }
 }

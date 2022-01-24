@@ -3,6 +3,7 @@
 <h2>Flavor Details</h2>
 <hr />
 <h3>@Html.DisplayNameFor(model => model.FlavorName): @Html.DisplayFor(model => model.FlavorName)</h3>
+<h3>@Html.DisplayNameFor(model => model.FlavorDetails): @Html.DisplayFor(model => model.FlavorDetails)</h3>
 
 <h4>Can be found on these treats:</h4>
   <ul>
@@ -18,7 +19,6 @@
   </ul>
 
 
-<p>@Html.ActionLink("Add a Treat", "AddTreat", new { id = Model.FlavorId })</p>
 <p>@Html.ActionLink("Edit Flavor", "Edit", new { id = Model.FlavorId })</p>
 <p>@Html.ActionLink("Delete Flavor", "Delete", new { id = Model.FlavorId })</p>
 <p>@Html.ActionLink("Back to Flavors", "Index")</p>
